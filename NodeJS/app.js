@@ -1,12 +1,20 @@
 var express = require('express'),
-	bodyParser = require("body-parser");
+	bodyParser = require("body-parser"),
+    mongoose = require("mongoose"),
+    User = require("./models/user"),
+    Group = require("./models/group"),
+    Transaction = require("./models/transaction");
 
 var app = express();
-var apiRoutes = require("./routes/apiRoutes");
-
-app.use("/api",apiRoutes)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+var apiRoutes = require("./routes/apiRoutes");
+
+
+app.use("/api",apiRoutes)
+
+var connection_string = 'mongodb://localhost/hisaab';
+mongoose.connect(connection_string);
 
 app.get('/', function (req, res) {
   res.json({
