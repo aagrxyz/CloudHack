@@ -15,6 +15,13 @@ function compute(a)
     var pos = [];
     var neg = [];
     var ans = [];
+    var clone_array=[];
+
+    a.forEach(function(obj,idx)
+    {
+        if(obj!=null)
+        clone_array.push(parseInt(obj.value));
+    });
 
     for(var i=1;i<n;i++)
     {
@@ -111,6 +118,13 @@ function compute(a)
             }
         }
     }
+
+    a.forEach(function(obj,idx)
+    {
+        if(obj!=null)
+        obj.value = parseInt(clone_array[idx]);
+    });
+
     return ans;
 }
 
