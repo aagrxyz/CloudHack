@@ -1,7 +1,9 @@
 package com.hack.digitalocean.hisaab;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -159,14 +161,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void updateUI(boolean signedIn,GoogleSignInAccount act) {
         if (signedIn) {
             //Intent i = new Intent(this,MainActivity.class);
-            String s = act.getDisplayName() + "  " + act.getEmail();
-            Toast.makeText(this,"Sign in Successful  " + s,Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-            Toast.makeText(this,"Sign out Successful  ",Toast.LENGTH_LONG).show();
-
-
+            SharedPreferences sharedPref = this.getSharedPreferences("preferences",MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(getString(R.string.namekey), act.getDisplayName());
+            editor.putString(getString(R.string.emailkey), act.getEmail());
+            editor.putString(getString(R.string.photourikey), act.getPhotoUrl().toString());
+            editor.commit();
+            Log.d("url", act.getPhotoUrl().toString());
+            Intent i = new Intent(this,MainActivity.class);
+            startActivity(i);
+            Toast.makeText(this, "Sign in Successful  ", Toast.LENGTH_LONG).show();
         }
     }
 
