@@ -5,6 +5,13 @@ var groupRoutes = require("./groupRoutes");
 
 router.use("/user",userRoutes);
 router.use("/group",groupRoutes);
+var Group = require("../models/group");
+var User = require("../models/user");
+
+// router.post("/recieve",function(req,res)
+// {
+//
+// });
 
 router.get("/",function(req,res)
 {
@@ -14,5 +21,7 @@ router.get("/",function(req,res)
         }
     );
 });
+
+
 
 module.exports = router;
