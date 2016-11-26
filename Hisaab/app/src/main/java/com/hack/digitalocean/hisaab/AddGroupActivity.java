@@ -1,5 +1,6 @@
 package com.hack.digitalocean.hisaab;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -43,15 +43,15 @@ public class AddGroupActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    EditText editText = new EditText(AddGroupActivity.this);
-                    editText.setId(no_of_members++);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                EditText editText = new EditText(AddGroupActivity.this);
+                editText.setId(no_of_members++);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
                         android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
-                    editText.setLayoutParams(params);
+                editText.setLayoutParams(params);
 
                 editText.setHint("Email of Member "+(no_of_members));
-                    lnrDynamicEditTextHolder.addView(editText);
+                lnrDynamicEditTextHolder.addView(editText);
             }
         });
     }
@@ -65,6 +65,8 @@ public class AddGroupActivity extends AppCompatActivity {
             try {
                 grp_json.put("name",name);
                 JSONArray user_json = new JSONArray();
+                SharedPreferences sharedPref = this.getSharedPreferences("preferences", MODE_PRIVATE);
+                user_json.put(sharedPref.getString(getResources().getString(R.string.emailkey), ""));
                 for(int i=0;i<no_of_members;i++)
                 {
                     user_json.put(((EditText)findViewById(i)).getText().toString());
@@ -75,7 +77,7 @@ public class AddGroupActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                    (Request.Method.POST, MySingleton.add_grp_URL, null, new Response.Listener<JSONObject>() {
+                    (Request.Method.POST, MySingleton.add_grp_URL, grp_json, new Response.Listener<JSONObject>() {
 
                         @Override
                         public void onResponse(JSONObject response)
@@ -89,6 +91,10 @@ public class AddGroupActivity extends AppCompatActivity {
                                     SharedPreferences.Editor editor = sharedPref.edit();
                                     editor.putString(grp_name.getText().toString(),grpid);
                                     editor.commit();
+                                    Toast.makeText(getBaseContext(),grpid,Toast.LENGTH_LONG).show();
+                                    Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+                                    startActivity(i);
+
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

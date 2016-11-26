@@ -8,5 +8,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/group_list"
         android:layout_alignParentTop="true"
-       />
+        />
 </LinearLayout>

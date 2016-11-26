@@ -202,7 +202,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             e.printStackTrace();
         }
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.POST, MySingleton.add_user_URL, null, new Response.Listener<JSONObject>() {
+                (Request.Method.POST, MySingleton.add_user_URL, user_json, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
@@ -214,7 +214,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 SharedPreferences.Editor editor = sharedPref.edit();
                                 editor.putString("user_id", user_id);
                                 editor.commit();
-                                wasSuccess[0] =true;
+                                //wasSuccess[0] =true;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -226,10 +226,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     public void onErrorResponse(VolleyError error)
                     {
 
+
                     }
                 });
         MySingleton.getInstance(this).addToRequestQueue(jsObjRequest);
-        return wasSuccess[0];
+        return true;//wasSuccess[0];
     }
 
 

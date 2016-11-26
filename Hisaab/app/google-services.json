@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "950185782639",
+    "project_id": "firebase-hisaab"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950185782639:android:c8be636d98e4c0af",
+        "android_client_info": {
+          "package_name": "com.hack.digitalocean.hisaab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950185782639-cdmt08oe168ofdojkpqkrtbn9mgbqi6l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hack.digitalocean.hisaab",
+            "certificate_hash": "251CB795983276DFC4C562574D9F9DF1D37F40FD"
+          }
+        },
+        {
+          "client_id": "950185782639-snh5e34b7jnalf5lej99dum3isv3o6po.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeQDnWpOLnrTWoKXs10dayTPC88EIDNY0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

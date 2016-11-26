@@ -17,8 +17,9 @@ public class MySingleton {
     private static MySingleton mInstance;
     private RequestQueue mRequestQueue;
     private static Context mCtx;
-    public static final String add_grp_URL="";
-    public static final String add_user_URL ="";
+    public static final String Server_IP="http://67.205.151.138";
+    public static final String add_grp_URL=Server_IP+"/api/group";
+    public static final String add_user_URL =Server_IP+"/api/user";
 
 
     private MySingleton(Context context) {

@@ -99,14 +99,14 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-       // GroupFragment grpFrag = new GroupFragment();
+        // GroupFragment grpFrag = new GroupFragment();
 
         // In case this activity was started with special instructions                                                     from an     // Intent, pass the Intent's extras to the fragment as arguments
         //grpFrag.setArguments(getIntent().getExtras());
 
         // Add the fragment to the 'fragment_container' FrameLayout
-       // getSupportFragmentManager().beginTransaction()
-         //       .add(R.id.fragment, grpFrag).commit();
+        // getSupportFragmentManager().beginTransaction()
+        //       .add(R.id.fragment, grpFrag).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         initdrawer(drawer);
