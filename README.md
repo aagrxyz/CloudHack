@@ -1,1 +1,0 @@
-# CloudHack Hackathon
