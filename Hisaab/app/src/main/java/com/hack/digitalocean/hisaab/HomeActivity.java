@@ -1,5 +1,6 @@
 package com.hack.digitalocean.hisaab;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -18,7 +19,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +39,7 @@ public class HomeActivity extends AppCompatActivity
 
     ImageView dp;
     TextView name,email;
+    String nameOfUser;
     private GoogleApiClient mGoogleApiClient;
 
 
@@ -142,18 +146,38 @@ public class HomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_groups) {
+            drawer.closeDrawer(GravityCompat.START);
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_log) {
 
-        } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_feedback) {
+
+            final Dialog rankDialog = new Dialog(HomeActivity.this, R.style.FullHeightDialog);
+            rankDialog.setContentView(R.layout.rank_dialog);
+            rankDialog.setCancelable(true);
+            RatingBar ratingBar = (RatingBar)rankDialog.findViewById(R.id.dialog_ratingbar);
+            //ratingBar.setRating(userRankValue);
+
+            TextView text = (TextView) rankDialog.findViewById(R.id.rank_dialog_text1);
+            text.setText(nameOfUser);
+
+            Button updateButton = (Button) rankDialog.findViewById(R.id.rank_dialog_button);
+            updateButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    rankDialog.dismiss();
+                }
+            });
+            //now that the dialog is set up, it's time to show it
+            rankDialog.show();
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_signout) {
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                     new ResultCallback<Status>() {
                         @Override
@@ -162,7 +186,6 @@ public class HomeActivity extends AppCompatActivity
                     });
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -178,6 +201,7 @@ public class HomeActivity extends AppCompatActivity
         SharedPreferences sharedPref = this.getSharedPreferences("preferences",MODE_PRIVATE);
         String url = sharedPref.getString(getResources().getString(R.string.photourikey),null);
         name.setText(sharedPref.getString(getResources().getString(R.string.namekey),""));
+        nameOfUser = (String)name.getText();
         email.setText(sharedPref.getString(getResources().getString(R.string.emailkey),""));
         new HomeActivity.DownloadImageTask(dp)
                 .execute(url);
