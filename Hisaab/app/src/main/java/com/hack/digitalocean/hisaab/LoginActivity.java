@@ -168,7 +168,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             editor.putString(getString(R.string.photourikey), act.getPhotoUrl().toString());
             editor.commit();
             Log.d("url", act.getPhotoUrl().toString());
-            Intent i = new Intent(this,MainActivity.class);
+            Intent i = new Intent(this,HomeActivity.class);
             startActivity(i);
             Toast.makeText(this, "Sign in Successful  ", Toast.LENGTH_LONG).show();
         }
