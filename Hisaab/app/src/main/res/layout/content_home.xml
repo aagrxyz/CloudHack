@@ -13,4 +13,10 @@
     tools:context="com.hack.digitalocean.hisaab.HomeActivity"
     tools:showIn="@layout/app_bar_home">
 
+    <fragment android:name="com.hack.digitalocean.hisaab.GroupFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment"
+        tools:layout="@layout/group_list_fragment" />
+
 </RelativeLayout>

@@ -8,9 +8,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -22,6 +28,10 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.hack.digitalocean.hisaab.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,View.OnClickListener {
 
@@ -167,12 +177,61 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             editor.putString(getString(R.string.emailkey), act.getEmail());
             editor.putString(getString(R.string.photourikey), act.getPhotoUrl().toString());
             editor.commit();
-            Log.d("url", act.getPhotoUrl().toString());
-            Intent i = new Intent(this,HomeActivity.class);
-            startActivity(i);
-            Toast.makeText(this, "Sign in Successful  ", Toast.LENGTH_LONG).show();
+            if(createUser(act.getDisplayName(), act.getEmail(), act.getPhotoUrl().toString())) {
+                //Log.d("url", act.getPhotoUrl().toString());
+                Intent i = new Intent(this, HomeActivity.class);
+                startActivity(i);
+                Toast.makeText(this, "Sign in Successful  ", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(getBaseContext(), "Some Error Occured", Toast.LENGTH_LONG).show();
+            }
         }
     }
+
+    public boolean createUser(String n , String em , String u)
+    {
+        JSONObject user_json = new JSONObject();
+        final boolean[] wasSuccess = {false};
+        try {
+            user_json.put("name",n);
+            user_json.put("email",em);
+            user_json.put("phot_url",u);
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.POST, MySingleton.add_user_URL, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String mess = response.getString("message");
+                            if (mess == null) {
+                                String user_id = response.getString("_id");
+                                SharedPreferences sharedPref = getApplication().getSharedPreferences("preferences", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString("user_id", user_id);
+                                editor.commit();
+                                wasSuccess[0] =true;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+
+                    }
+                });
+        MySingleton.getInstance(this).addToRequestQueue(jsObjRequest);
+        return wasSuccess[0];
+    }
+
 
     @Override
     public void onClick(View v) {

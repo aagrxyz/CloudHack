@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -35,13 +36,12 @@ import com.google.android.gms.common.api.Status;
 import java.io.InputStream;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,GoogleApiClient.OnConnectionFailedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
 
     ImageView dp;
-    TextView name,email;
+    TextView name, email;
     String nameOfUser;
     private GoogleApiClient mGoogleApiClient;
-
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
@@ -50,9 +50,11 @@ public class HomeActivity extends AppCompatActivity
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
+
         public DownloadImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
         }
+
         protected Bitmap doInBackground(String... urls) {
 
             String urldisplay = urls[0];
@@ -92,19 +94,26 @@ public class HomeActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent add_grp = new Intent(getBaseContext(),AddGroupActivity.class);
+                startActivity(add_grp);
             }
         });
 
+       // GroupFragment grpFrag = new GroupFragment();
+
+        // In case this activity was started with special instructions                                                     from an     // Intent, pass the Intent's extras to the fragment as arguments
+        //grpFrag.setArguments(getIntent().getExtras());
+
+        // Add the fragment to the 'fragment_container' FrameLayout
+       // getSupportFragmentManager().beginTransaction()
+         //       .add(R.id.fragment, grpFrag).commit();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         initdrawer(drawer);
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -119,52 +128,34 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        Toolbar tt = (Toolbar) findViewById(R.id.toolbar);
+
 
         if (id == R.id.nav_groups) {
             drawer.closeDrawer(GravityCompat.START);
+            tt.setTitle("My Groups");
             // Handle the camera action
-        } else if (id == R.id.nav_log) {
-
-
+        }
+        else if (id == R.id.nav_approvals)
+        {
+            tt.setTitle("Pending Approvals");
+        }
+        else if (id == R.id.nav_log)
+        {
+            tt.setTitle("My Transactions");
         } else if (id == R.id.nav_feedback) {
-
             final Dialog rankDialog = new Dialog(HomeActivity.this, R.style.FullHeightDialog);
             rankDialog.setContentView(R.layout.rank_dialog);
             rankDialog.setCancelable(true);
-            RatingBar ratingBar = (RatingBar)rankDialog.findViewById(R.id.dialog_ratingbar);
-            //ratingBar.setRating(userRankValue);
-
+            RatingBar ratingBar = (RatingBar) rankDialog.findViewById(R.id.dialog_ratingbar);
             TextView text = (TextView) rankDialog.findViewById(R.id.rank_dialog_text1);
             text.setText(nameOfUser);
-
             Button updateButton = (Button) rankDialog.findViewById(R.id.rank_dialog_button);
             updateButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -172,7 +163,6 @@ public class HomeActivity extends AppCompatActivity
                     rankDialog.dismiss();
                 }
             });
-            //now that the dialog is set up, it's time to show it
             rankDialog.show();
 
         } else if (id == R.id.nav_share) {
@@ -182,7 +172,8 @@ public class HomeActivity extends AppCompatActivity
                     new ResultCallback<Status>() {
                         @Override
                         public void onResult(Status status) {
-                            updateUI();}
+                            updateUI();
+                        }
                     });
         }
 
@@ -190,26 +181,24 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    public void initdrawer(DrawerLayout drawer)
-    {
+    public void initdrawer(DrawerLayout drawer) {
 
         NavigationView navigationView = (NavigationView) drawer.findViewById(R.id.nav_view);
         View headerLayout = navigationView.getHeaderView(0);
         dp = (ImageView) headerLayout.findViewById(R.id.userdpnav);
-        name= (TextView) headerLayout.findViewById(R.id.usernamenav);
+        name = (TextView) headerLayout.findViewById(R.id.usernamenav);
         email = (TextView) headerLayout.findViewById(R.id.useremailnav);
-        SharedPreferences sharedPref = this.getSharedPreferences("preferences",MODE_PRIVATE);
-        String url = sharedPref.getString(getResources().getString(R.string.photourikey),null);
-        name.setText(sharedPref.getString(getResources().getString(R.string.namekey),""));
-        nameOfUser = (String)name.getText();
-        email.setText(sharedPref.getString(getResources().getString(R.string.emailkey),""));
+        SharedPreferences sharedPref = this.getSharedPreferences("preferences", MODE_PRIVATE);
+        String url = sharedPref.getString(getResources().getString(R.string.photourikey), null);
+        name.setText(sharedPref.getString(getResources().getString(R.string.namekey), ""));
+        nameOfUser = (String) name.getText();
+        email.setText(sharedPref.getString(getResources().getString(R.string.emailkey), ""));
         new HomeActivity.DownloadImageTask(dp)
                 .execute(url);
     }
 
-    public  void updateUI()
-    {
-        Intent i = new Intent(this,LoginActivity.class);
+    public void updateUI() {
+        Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
     }
 }

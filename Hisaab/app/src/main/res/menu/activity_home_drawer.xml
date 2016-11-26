@@ -6,6 +6,10 @@
             android:id="@+id/nav_groups"
             android:icon="@android:drawable/ic_menu_myplaces"
             android:title="Groups" />
+        <item
+            android:id="@+id/nav_approvals"
+            android:icon="@android:drawable/ic_popup_reminder"
+            android:title="Pending Approvals"/>
 
         <item
             android:id="@+id/nav_log"
