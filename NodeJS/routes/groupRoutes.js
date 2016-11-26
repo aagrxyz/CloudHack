@@ -51,6 +51,13 @@ router.post("/",function(req,res)
     Group.create(gr,function (err,group)
     {
         var size = req.body.users.length;
+        group.users = [];
+        for(i=0;i<size;i++)
+        {
+            group.users.push(null);
+        }
+        console.log(group.users);
+        // console.log("***************************************************8")
         group.users = [null];
 
         req.body.users.forEach(function(user_individual,index)
@@ -60,6 +67,7 @@ router.post("/",function(req,res)
                 if(user_object != null)
                 {
                     group.users.push({user: user_object,value: 0});
+                    console.log(index+" - "+group.users[index]);
                     group.save();
                     user_object.groups.push(group);
                     user_object.save();
