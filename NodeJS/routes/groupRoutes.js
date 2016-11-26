@@ -5,7 +5,7 @@ var User = require("../models/user");
 
 router.get("/:id",function(req,res)
 {
-    Group.findOne({_id: req.params.id}).populate("log").populate("users").populate("matrix").exec(function(err,group)
+    Group.findOne({_id: req.params.id}).populate("log").populate({path: 'users',model: "User"}).populate({path: "matrix", model: "User"}).exec(function(err,group)
     {
         if(err)
         {
@@ -25,7 +25,7 @@ router.get("/:id",function(req,res)
 router.get("/",function(req,res)
 {
     console.log(req.params);
-    Group.find({}).populate("log").populate("users").populate("matrix").exec(function(err,groups)
+    Group.find({}).populate("log").populate("users.user").populate("matrix").exec(function(err,groups)
     {
         if(err)
         {

@@ -15,6 +15,13 @@ function compute(a)
     var pos = [];
     var neg = [];
     var ans = [];
+    var clone_array=[];
+
+    a.forEach(function(obj,idx)
+    {
+        if(obj!=null)
+        clone_array.push(parseInt(obj.value));
+    });
 
     for(var i=1;i<n;i++)
     {
@@ -111,6 +118,16 @@ function compute(a)
             }
         }
     }
+
+    a.forEach(function(obj,idx)
+    {
+        if(obj!=null)
+        {
+        obj.value = parseInt(clone_array[idx-1]);
+        console.log(obj);
+        }
+    });
+
     return ans;
 }
 
@@ -161,7 +178,9 @@ router.post("/recieve",function(req,res)
                     // console.log("0---0");
                 }
             });
-            // console.log('********************');
+            console.log('********************');
+            console.log(group.users);
+            console.log('********************');
             group.matrix = compute(group.users);
             group.save();
             res.json(group);
