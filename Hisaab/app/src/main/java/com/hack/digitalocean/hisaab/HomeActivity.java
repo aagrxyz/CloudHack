@@ -42,6 +42,7 @@ public class HomeActivity extends AppCompatActivity
     TextView name, email;
     String nameOfUser;
     private GoogleApiClient mGoogleApiClient;
+    FloatingActionButton fab;
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
@@ -90,14 +91,8 @@ public class HomeActivity extends AppCompatActivity
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent add_grp = new Intent(getBaseContext(),AddGroupActivity.class);
-                startActivity(add_grp);
-            }
-        });
+        fab= (FloatingActionButton) findViewById(R.id.fab);
+
 
         // GroupFragment grpFrag = new GroupFragment();
 
@@ -140,6 +135,13 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.nav_groups) {
             drawer.closeDrawer(GravityCompat.START);
             tt.setTitle("My Groups");
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent add_grp = new Intent(getBaseContext(),AddGroupActivity.class);
+                    startActivity(add_grp);
+                }
+            });
             // Handle the camera action
         }
         else if (id == R.id.nav_approvals)
@@ -149,6 +151,15 @@ public class HomeActivity extends AppCompatActivity
         else if (id == R.id.nav_log)
         {
             tt.setTitle("My Transactions");
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent add_tr = new Intent(getBaseContext(),AddTransaction.class);
+                    startActivity(add_tr);
+                }
+            });
+
+
         } else if (id == R.id.nav_feedback) {
             final Dialog rankDialog = new Dialog(HomeActivity.this, R.style.FullHeightDialog);
             rankDialog.setContentView(R.layout.rank_dialog);

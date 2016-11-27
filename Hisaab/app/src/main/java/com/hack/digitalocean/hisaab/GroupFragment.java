@@ -3,12 +3,14 @@ package com.hack.digitalocean.hisaab;
 import android.app.Fragment;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -24,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.Inet4Address;
 import java.util.ArrayList;
 
 /**
@@ -63,6 +66,14 @@ public class GroupFragment extends Fragment {
 
                             }
                             lv.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,al));
+                            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    Intent i = new Intent(getActivity(),GroupPage.class);
+                                    i.putExtra("grpname",al.get(position));
+                                    startActivity(i);
+                                }
+                            });
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -80,7 +91,7 @@ public class GroupFragment extends Fragment {
                 });
 
         MySingleton.getInstance(getActivity()).addToRequestQueue(jsObjRequest);
-        Toast.makeText(getActivity(),String.valueOf(al.size()),Toast.LENGTH_LONG).show();
+       // Toast.makeText(getActivity(),String.valueOf(al.size()),Toast.LENGTH_LONG).show();
 
 
         return v;

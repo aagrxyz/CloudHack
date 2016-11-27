@@ -10,4 +10,53 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.hack.digitalocean.hisaab.AddTransaction">
 
+
+    <Button
+        android:text="Confirm You Paid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/confirm_add_transact"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Email of the Person"
+        android:ems="10"
+        android:id="@+id/person_name_add_transact"
+        android:layout_marginBottom="35dp"
+        android:layout_above="@+id/grp_name_add_transact"
+        android:layout_alignLeft="@+id/grp_name_add_transact"
+        android:layout_alignStart="@+id/grp_name_add_transact" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Group Name"
+        android:ems="10"
+        android:id="@+id/grp_name_add_transact"
+        android:layout_marginBottom="24dp"
+        android:layout_above="@+id/amount_add_transact"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="52dp"
+        android:layout_marginEnd="52dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="Amount Paid"
+        android:ems="10"
+        android:id="@+id/amount_add_transact"
+        android:layout_marginBottom="132dp"
+        android:layout_above="@+id/confirm_add_transact"
+        android:layout_alignLeft="@+id/grp_name_add_transact"
+        android:layout_alignStart="@+id/grp_name_add_transact" />
+
+
 </RelativeLayout>
