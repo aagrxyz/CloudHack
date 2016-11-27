@@ -42,6 +42,8 @@ public class GroupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.group_list_fragment,container,false);
         SharedPreferences sharedPref = getActivity().getBaseContext().getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPref.edit();
+
         final ListView lv = (ListView) v.findViewById(R.id.group_list);
 
 
@@ -59,13 +61,18 @@ public class GroupFragment extends Fragment {
                             {
                                // Toast.makeText(getActivity(),grps.getJSONObject(i).getString("name"),Toast.LENGTH_LONG).show();
 
-                                al.add(grps.getJSONObject(i).getString("name"));
+                                String ggggname = grps.getJSONObject(i).getString("name");
+                                String ggid = grps.getJSONObject(i).getString("_id");
+                                al.add(ggggname);
+                                editor.putString(ggggname,ggid);
+
                                 //Toast.makeText(getActivity(),String.valueOf(al.size()),Toast.LENGTH_LONG).show();
 
 
 
                             }
                             lv.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,al));
+                            editor.commit();
                             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -51,9 +51,53 @@ public class AddTransaction extends AppCompatActivity {
         String to = toe.getText().toString();
         String grp = grpe.getText().toString();
         String amt = amte.getText().toString();
-        Toast.makeText(this,"Transaction Added",Toast.LENGTH_LONG).show();
-        Intent i= new Intent(this,HomeActivity.class);
-        startActivity(i);
+
+        JSONObject user_json = new JSONObject();
+        try {
+            user_json.put("group_id",sharedPref.getString(grp,""));
+            user_json.put("email",from);
+            JSONArray users = new JS;
+            JSONArray values = new JSONArray(amt);
+
+            user_json.put("users",users);
+            user_json.put("values",values);
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Toast.makeText(getApplicationContext(),user_json.toString(),Toast.LENGTH_LONG).show();
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.POST, MySingleton.view_Transact, user_json, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String mess = response.getString("message");
+                            if(mess==null)
+                            {
+                                Toast.makeText(getApplicationContext(),"Transaction Added",Toast.LENGTH_LONG).show();
+                                Intent i= new Intent(getApplicationContext(),HomeActivity.class);
+                                startActivity(i);
+                            }
+                            else if (mess.equalsIgnoreCase("bad parameters")) {
+
+                            Toast.makeText(getBaseContext(),"Some Error in Form",Toast.LENGTH_LONG);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+
+
+                    }
+                });
+        MySingleton.getInstance(this).addToRequestQueue(jsObjRequest);
+
 
     }
 }
